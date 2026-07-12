@@ -162,6 +162,49 @@ npm run selfassistant
 | `npm run dev:ui` | Vite only (port 5173) |
 | `npm run cli` | Terminal compare (`index.js`, currently commented out) |
 | `npm run build` | Production React build |
+| `npm run dev:netlify` | Local Netlify dev (UI + `/ask` function) |
+
+## Deploy to Netlify
+
+The repo includes a Netlify Function for `POST /ask` so the UI and API deploy together.
+
+### 1. Connect the repo
+
+In [Netlify](https://app.netlify.com), import this repository. Build settings are read from `netlify.toml`:
+
+- **Build command:** `npm run build`
+- **Publish directory:** `dist`
+- **Functions directory:** `netlify/functions`
+
+### 2. Set environment variables
+
+In **Site settings → Environment variables**, add:
+
+```
+OPENAI_API_KEY=...
+GEMINI_API_KEY=...
+MISTRAL_API_KEY=...
+MODEL_TEMPERATURE=0.7
+```
+
+Do not commit `.env`; Netlify injects these into the function at runtime.
+
+### 3. Deploy
+
+Push to your connected branch or trigger a deploy manually. `/ask` is proxied to `/.netlify/functions/ask` via `netlify.toml`.
+
+### 4. Test locally (optional)
+
+```bash
+npm install
+npm run dev:netlify
+```
+
+Open http://localhost:8888 — Vite UI plus the `/ask` function, matching production routing.
+
+### Timeout note
+
+Netlify Functions have execution time limits (10s on the free plan, up to 26s on Pro). This app calls three LLMs plus a judge, so slow prompts may time out on the free tier. If that happens, upgrade to Pro or host `server.js` on a Node platform and point the UI at it with `VITE_API_URL`.
 
 ## Error handling
 

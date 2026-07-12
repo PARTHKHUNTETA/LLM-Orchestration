@@ -1,10 +1,5 @@
-import path from "node:path";
-import { fileURLToPath } from "node:url";
-import dotenv from "dotenv";
 import { Mistral } from "@mistralai/mistralai";
 import { MODEL_TEMPERATURE } from "./config.js";
-
-dotenv.config({ path: path.join(path.dirname(fileURLToPath(import.meta.url)), "../../.env") });
 
 const client = new Mistral({ apiKey: process.env.MISTRAL_API_KEY });
 const MODEL_NAME = "mistral-large-latest";

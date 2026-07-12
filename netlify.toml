@@ -1,0 +1,24 @@
+[build]
+  command = "npm run build"
+  publish = "dist"
+  functions = "netlify/functions"
+
+[functions]
+  node_bundler = "esbuild"
+  external_node_modules = ["openai", "@google/genai", "@mistralai/mistralai", "zod"]
+
+[functions."ask"]
+  # Pro plan allows up to 26s; free tier is capped at 10s by Netlify.
+  timeout = 26
+
+[dev]
+  command = "npm run dev:ui"
+  targetPort = 5173
+  port = 8888
+  autoLaunch = false
+
+# API route
+[[redirects]]
+  from = "/ask"
+  to = "/.netlify/functions/ask"
+  status = 200

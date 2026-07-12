@@ -1,10 +1,5 @@
-import path from "node:path";
-import { fileURLToPath } from "node:url";
-import dotenv from "dotenv";
 import { GoogleGenAI } from "@google/genai";
 import { MODEL_TEMPERATURE } from "./config.js";
-
-dotenv.config({ path: path.join(path.dirname(fileURLToPath(import.meta.url)), "../../.env") });
 
 const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
 const MODEL_NAME = "gemini-3.1-flash-lite";

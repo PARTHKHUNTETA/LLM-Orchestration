@@ -1,10 +1,5 @@
-import path from "node:path";
-import { fileURLToPath } from "node:url";
-import dotenv from "dotenv";
 import { OpenAI } from "openai";
 import { zodTextFormat } from "openai/helpers/zod";
-
-dotenv.config({ path: path.join(path.dirname(fileURLToPath(import.meta.url)), "../../.env") });
 
 const client = new OpenAI();
 const MODEL_NAME = "gpt-5.6";
