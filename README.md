@@ -87,20 +87,4 @@ Local `server.js` and the Netlify function both call `runAsk`.
 | `npm run dev:netlify` | Local Netlify dev (UI + `/ask` function) |
 | `npm run cli` | Terminal compare. The body of `index.js` is commented out |
 
-## Deploy to Netlify
 
-`netlify.toml` already sets the build, publish directory, functions directory, and the `/ask` redirect.
-
-1. Import this repository in [Netlify](https://app.netlify.com). Build command `npm run build`, publish `dist`, functions `netlify/functions`.
-2. In **Site settings → Environment variables**, set `OPENAI_API_KEY`, `GEMINI_API_KEY`, `MISTRAL_API_KEY`, and optionally `MODEL_TEMPERATURE=0.7`.
-3. Push the connected branch, or trigger a deploy. `/ask` is proxied to `/.netlify/functions/ask`.
-4. Optional local check: `npm run dev:netlify`, then open http://localhost:8888.
-
-Netlify Functions time out at 10s on the free plan and 26s on Pro (`timeout` in `netlify.toml`). Three model calls plus a judge can exceed the free limit. Use Pro, or run `server.js` on a host with a longer request limit.
-
-## Errors
-
-- Empty or invalid prompts return HTTP 400.
-- A model that returns no text reports its own error (API key, network, and similar).
-- Judge failures show in the verdict panel.
-- Synthesis still runs when at least one model returns text.
